@@ -1,0 +1,149 @@
+using UnityEngine;
+
+public class Ball : MonoBehaviour
+{
+    private bool isIn = false;
+    public bool gameStarted { private set; get; } = false;
+
+    public float rotationSpeed = 360f;
+    public Score score;
+
+    private Rigidbody2D rb;
+    public float speed = 10f;
+
+
+    public GameObject wallRight;
+    private Vector3 wallRightCord;
+
+    public GameObject wallLeft;
+    private Vector3 wallLeftCord;
+
+    public GameObject paddleRight;
+    private Vector3 paddleRightCord;
+
+    public GameObject paddleLeft;
+    private Vector3 paddleLeftCord;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        //wallRightCord = wallRight.transform.localPosition;
+        //paddleRightCord = paddleRight.transform.localPosition;
+        //wallLeftCord = wallLeft.transform.localPosition;
+        //paddleLeftCord = paddleLeft.transform.localPosition;
+
+        wallRightCord = wallRight.transform.position;
+        paddleRightCord = paddleRight.transform.position;
+        wallLeftCord = wallLeft.transform.position;
+        paddleLeftCord = paddleLeft.transform.position;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (gameStarted)
+        {
+            score.HideEnterGameSign();
+            rb.linearVelocity = rb.linearVelocity.normalized * speed;
+            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
+            //rb.angularVelocity = 1000f;
+
+            CheckGoal();
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                ResetGame(false);
+        }
+
+        else if (!gameStarted && Input.GetKeyDown(KeyCode.F))
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            gameStarted = true;
+            LaunchBall();
+        }
+        Debug.Log("Position paddle right: " + paddleRightCord.x);
+        Debug.Log("Position paddle left: " + paddleLeftCord.x);
+        Debug.Log("Posigion ball : " + transform.position.x);
+        Debug.Log("Ball in right side : " + IsInRightSide());
+        Debug.Log("Ball in left side : " + IsInLeftSide());
+
+    }
+
+    private void LaunchBall()
+    {
+        rb.linearVelocity = GetDirection();
+    }
+    private Vector2 GetDirection()
+    {
+        float[] possibleAngles = { 45f, -45f, 135f, -135f };  // Four good directions
+        float chosenAngle = possibleAngles[Random.Range(0, possibleAngles.Length)];
+        float angleRad = chosenAngle * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized * speed;
+    }
+    private void CheckGoal()
+    {
+        if (IsInRightSide())
+        {
+            Debug.Log("Is in: " + isIn);
+            if (!isIn)
+            {
+                score.AddScore("right");
+                isIn = true;
+                ResetGame(false);
+                Debug.Log("RIGHT IS UP");
+            }
+        }
+        else if (IsInLeftSide())
+        {
+            if (!isIn)
+            {
+                score.AddScore("left");
+                isIn = true;
+                ResetGame(false);
+                Debug.Log("LEFT IS UP");
+            }
+        }
+        else if (IsInMiddle())
+        {
+            if (isIn)
+            {
+                isIn = false;
+                Debug.Log("EXISTING ZONE");
+            }
+        }
+    }
+    private bool IsInMiddle()
+    {
+        if (transform.position.x > paddleLeftCord.x && transform.position.x < paddleRightCord.x)
+            return true;
+        return false;
+    }
+    private bool IsInLeftSide()
+    {
+        if (transform.position.x < paddleLeftCord.x && transform.position.x > wallLeftCord.x)
+            return true;
+        return false;
+    }
+    private bool IsInRightSide()
+    {
+        if (transform.position.x > paddleRightCord.x && transform.position.x < wallRightCord.x)
+            return true;
+        return false;
+    }
+    private void ResetGame(bool resetCounter)
+    {
+        transform.position = new Vector3(0, 0, 0);
+   
+
+        if (resetCounter)
+        {
+            rb.linearVelocity = new Vector2(0,0);
+            score.SetCounterLeft(0); score.SetCounterRight(0);
+        }
+        else 
+            rb.linearVelocity = GetDirection();
+    }
+    
+}
