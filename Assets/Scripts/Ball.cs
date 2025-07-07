@@ -128,7 +128,7 @@ public class Ball : MonoBehaviour
     }
     private bool IsInRightSide()
     {
-        if (transform.position.x > paddleRightCord.x && transform.position.x < wallRightCord.x)
+        if (transform.position.x > paddleRightCord.x + 0.15f && transform.position.x < wallRightCord.x)
             return true;
         return false;
     }
