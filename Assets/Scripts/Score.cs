@@ -1,54 +1,80 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
     public TMP_Text scoreLeft;
     public TMP_Text scoreRight;
     public TMP_Text startGameSign;
+    public TMP_Text winnerText;
+    public GameObject backToMenuButton;
 
-    private int counterLeft = 0;
-    private int counterRight = 0;
 
     void Start()
     {
-        scoreLeft.text = counterLeft.ToString();
-        scoreRight.text = counterRight.ToString();
+        winnerText.gameObject.SetActive(false);
+        backToMenuButton.gameObject.SetActive(false);
+        scoreLeft.text = 0.ToString();
+        scoreRight.text = 0.ToString();
     }
 
-    void Update()
-    {
-        
-    }
 
     public void AddScore(string side)
     {
         if (side == "left")
         {
-            counterLeft++;
-            scoreLeft.text = counterLeft.ToString();
+            GameManager.Instance.CounterLeft++;
+            scoreLeft.text = GameManager.Instance.CounterLeft.ToString();
         }
         else
         {
-            counterRight++;
-            scoreRight.text = counterRight.ToString();
+            GameManager.Instance.CounterRight++;
+            scoreRight.text = GameManager.Instance.CounterRight.ToString();
         }
-        
+        GameManager.Instance.EndGame(winnerText, backToMenuButton);
     }
     public void SetCounterLeft(int x)
     {
-        counterLeft = x;
+        GameManager.Instance.CounterLeft = x;
     }
     public void SetCounterRight(int x)
     {
-        counterRight = x;
+        GameManager.Instance.CounterRight = x;
     }
     public void HideEnterGameSign()
     {
         startGameSign.gameObject.SetActive(false);
+    }   
+    public void GoBackToMenu()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGame(winnerText, backToMenuButton);
+        }
+
+        // Optional: disable ball
+        GameObject ball = GameObject.FindWithTag("Ball");
+        if (ball != null)
+            ball.SetActive(false);
+
+        // Optional: disable paddles
+        GameObject[] paddles = GameObject.FindGameObjectsWithTag("Paddle");
+        foreach (var paddle in paddles)
+        {
+            paddle.SetActive(false);
+        }
+
+        // Optional: disable any other visible stuff (UI, background, etc.)
+        GameObject canvas = GameObject.FindGameObjectWithTag("Canvas pong");
+        if (canvas != null)
+            canvas.SetActive(false);
+
+        // Destroy GameManager if you don't need it:
+        if (GameManager.Instance != null)
+            Destroy(GameManager.Instance.gameObject);
+
+
+        SceneManager.LoadScene("MainMenu");
     }
-        
-  
-    
-        
 }

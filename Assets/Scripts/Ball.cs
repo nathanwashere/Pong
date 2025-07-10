@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Ball : MonoBehaviour
 
     private Rigidbody2D rb;
     public float speed = 10f;
+    [SerializeField] private float detectGoalDistanceRight = 0.15f;
+    [SerializeField] private float detectGoalDistanceLeft = 0.2f;
 
 
     public GameObject wallRight;
@@ -24,7 +27,6 @@ public class Ball : MonoBehaviour
     public GameObject paddleLeft;
     private Vector3 paddleLeftCord;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,7 +43,6 @@ public class Ball : MonoBehaviour
         paddleLeftCord = paddleLeft.transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameStarted)
@@ -55,6 +56,7 @@ public class Ball : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
                 ResetGame(false);
+            
         }
 
         else if (!gameStarted && Input.GetKeyDown(KeyCode.F))
@@ -63,11 +65,6 @@ public class Ball : MonoBehaviour
             gameStarted = true;
             LaunchBall();
         }
-        Debug.Log("Position paddle right: " + paddleRightCord.x);
-        Debug.Log("Position paddle left: " + paddleLeftCord.x);
-        Debug.Log("Posigion ball : " + transform.position.x);
-        Debug.Log("Ball in right side : " + IsInRightSide());
-        Debug.Log("Ball in left side : " + IsInLeftSide());
 
     }
 
@@ -89,7 +86,7 @@ public class Ball : MonoBehaviour
             Debug.Log("Is in: " + isIn);
             if (!isIn)
             {
-                score.AddScore("right");
+                score.AddScore("left");
                 isIn = true;
                 ResetGame(false);
                 Debug.Log("RIGHT IS UP");
@@ -99,7 +96,7 @@ public class Ball : MonoBehaviour
         {
             if (!isIn)
             {
-                score.AddScore("left");
+                score.AddScore("right");
                 isIn = true;
                 ResetGame(false);
                 Debug.Log("LEFT IS UP");
@@ -122,13 +119,13 @@ public class Ball : MonoBehaviour
     }
     private bool IsInLeftSide()
     {
-        if (transform.position.x < paddleLeftCord.x && transform.position.x > wallLeftCord.x)
+        if (transform.position.x < paddleLeftCord.x - detectGoalDistanceLeft)
             return true;
         return false;
     }
     private bool IsInRightSide()
     {
-        if (transform.position.x > paddleRightCord.x + 0.15f && transform.position.x < wallRightCord.x)
+        if (transform.position.x > paddleRightCord.x + detectGoalDistanceRight)
             return true;
         return false;
     }
@@ -142,8 +139,21 @@ public class Ball : MonoBehaviour
             rb.linearVelocity = new Vector2(0,0);
             score.SetCounterLeft(0); score.SetCounterRight(0);
         }
-        else 
+        else
+        {
             rb.linearVelocity = GetDirection();
+            CheckEndGame();
+        }
+        
     }
-    
+    public void CheckEndGame()
+    {
+        if (GameManager.Instance.IsGameOver)
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+    }
+
+    private void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+    }
 }

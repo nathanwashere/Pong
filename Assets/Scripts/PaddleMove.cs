@@ -5,11 +5,7 @@ public abstract class PaddleMove : MonoBehaviour
     protected Rigidbody2D rb;
     public float speed = 10f;
     public Ball ball;
-    public float minY = -5.2f;  
-    public float maxY = 5.2f;    
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,7 +18,7 @@ public abstract class PaddleMove : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+
     protected void Update()
     {
         if (ball != null && ball.gameStarted)
