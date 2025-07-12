@@ -13,4 +13,13 @@ public class Paddleleft : PaddleMove
 
         return new Vector2(0, moveY);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Ground")
+        {
+            Debug.Log("I have touched the ground!");
+            rb.linearVelocity = new Vector2(0, 0);
+        }
+    }
 }

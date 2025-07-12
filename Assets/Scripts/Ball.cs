@@ -56,7 +56,7 @@ public class Ball : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
                 ResetGame(false);
-            
+
         }
 
         else if (!gameStarted && Input.GetKeyDown(KeyCode.F))
@@ -83,13 +83,11 @@ public class Ball : MonoBehaviour
     {
         if (IsInRightSide())
         {
-            Debug.Log("Is in: " + isIn);
             if (!isIn)
             {
                 score.AddScore("left");
                 isIn = true;
                 ResetGame(false);
-                Debug.Log("RIGHT IS UP");
             }
         }
         else if (IsInLeftSide())
@@ -99,7 +97,6 @@ public class Ball : MonoBehaviour
                 score.AddScore("right");
                 isIn = true;
                 ResetGame(false);
-                Debug.Log("LEFT IS UP");
             }
         }
         else if (IsInMiddle())
@@ -107,7 +104,6 @@ public class Ball : MonoBehaviour
             if (isIn)
             {
                 isIn = false;
-                Debug.Log("EXISTING ZONE");
             }
         }
     }
@@ -132,11 +128,11 @@ public class Ball : MonoBehaviour
     private void ResetGame(bool resetCounter)
     {
         transform.position = new Vector3(0, 0, 0);
-   
+
 
         if (resetCounter)
         {
-            rb.linearVelocity = new Vector2(0,0);
+            rb.linearVelocity = new Vector2(0, 0);
             score.SetCounterLeft(0); score.SetCounterRight(0);
         }
         else
@@ -144,16 +140,13 @@ public class Ball : MonoBehaviour
             rb.linearVelocity = GetDirection();
             CheckEndGame();
         }
-        
+
     }
     public void CheckEndGame()
     {
+        // When game ends, this function makes the ball straight and not in rotation
         if (GameManager.Instance.IsGameOver)
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
-    private void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
-    }
 }

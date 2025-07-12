@@ -53,27 +53,19 @@ public class Score : MonoBehaviour
             GameManager.Instance.ResetGame(winnerText, backToMenuButton);
         }
 
-        // Optional: disable ball
         GameObject ball = GameObject.FindWithTag("Ball");
         if (ball != null)
             ball.SetActive(false);
 
-        // Optional: disable paddles
         GameObject[] paddles = GameObject.FindGameObjectsWithTag("Paddle");
         foreach (var paddle in paddles)
         {
             paddle.SetActive(false);
         }
 
-        // Optional: disable any other visible stuff (UI, background, etc.)
         GameObject canvas = GameObject.FindGameObjectWithTag("Canvas pong");
         if (canvas != null)
             canvas.SetActive(false);
-
-        // Destroy GameManager if you don't need it:
-        if (GameManager.Instance != null)
-            Destroy(GameManager.Instance.gameObject);
-
 
         SceneManager.LoadScene("MainMenu");
     }

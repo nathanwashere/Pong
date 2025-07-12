@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private const string LEFT_PLAYER_WINS = "Left Player Wins!";
+    private const string RIGHT_PLAYER_WINS = "Right Player Wins!";
+
+
+
     public static GameManager Instance;
 
     private int maxScore;
@@ -23,16 +28,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void EndGame(TMP_Text winnerText, GameObject backToMenuButton)
     {
         if (!isGameOver && (leftScore == maxScore || rightScore == maxScore))
@@ -47,9 +42,9 @@ public class GameManager : MonoBehaviour
     {
         winnerText.gameObject.SetActive(true);
         if (leftScore > rightScore)
-            winnerText.text = "Left Player Wins!";
+            winnerText.text = LEFT_PLAYER_WINS;
         else
-            winnerText.text = "Right Player Wins!";
+            winnerText.text = RIGHT_PLAYER_WINS;
     }
     public void ResetGame(TMP_Text winnerText, GameObject backToMenuButton)
     {
