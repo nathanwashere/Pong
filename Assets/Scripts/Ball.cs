@@ -7,12 +7,14 @@ public class Ball : MonoBehaviour
     public bool gameStarted { private set; get; } = false;
 
     public float rotationSpeed = 360f;
-    public Score score;
+    public PongMainCanvas mainCanvas;
 
     private Rigidbody2D rb;
-    public float speed = 10f;
+    [SerializeField] private float speed = 10f;
     [SerializeField] private float detectGoalDistanceRight = 0.15f;
     [SerializeField] private float detectGoalDistanceLeft = 0.2f;
+
+    private Vector2 storedVelociy;
 
 
     public GameObject wallRight;
@@ -27,9 +29,13 @@ public class Ball : MonoBehaviour
     public GameObject paddleLeft;
     private Vector3 paddleLeftCord;
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+    }
+    void Start()
+    {
         rb.bodyType = RigidbodyType2D.Kinematic;
 
         //wallRightCord = wallRight.transform.localPosition;
@@ -47,7 +53,7 @@ public class Ball : MonoBehaviour
     {
         if (gameStarted)
         {
-            score.HideEnterGameSign();
+            mainCanvas.HideEnterGameSign();
             rb.linearVelocity = rb.linearVelocity.normalized * speed;
             transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
             //rb.angularVelocity = 1000f;
@@ -68,6 +74,17 @@ public class Ball : MonoBehaviour
 
     }
 
+    public void StoreVelocity()
+    {
+        storedVelociy = rb.linearVelocity;
+
+        rb.simulated = false;
+    }
+    public void RestoreVelocity()
+    {
+        rb.simulated = true;
+        rb.linearVelocity = storedVelociy;
+    }
     private void LaunchBall()
     {
         rb.linearVelocity = GetDirection();
@@ -85,7 +102,7 @@ public class Ball : MonoBehaviour
         {
             if (!isIn)
             {
-                score.AddScore("left");
+                mainCanvas.AddScore("left");
                 isIn = true;
                 ResetGame(false);
             }
@@ -94,7 +111,7 @@ public class Ball : MonoBehaviour
         {
             if (!isIn)
             {
-                score.AddScore("right");
+                mainCanvas.AddScore("right");
                 isIn = true;
                 ResetGame(false);
             }
@@ -133,7 +150,7 @@ public class Ball : MonoBehaviour
         if (resetCounter)
         {
             rb.linearVelocity = new Vector2(0, 0);
-            score.SetCounterLeft(0); score.SetCounterRight(0);
+            mainCanvas.SetCounterLeft(0); mainCanvas.SetCounterRight(0);
         }
         else
         {

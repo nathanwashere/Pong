@@ -10,15 +10,16 @@ TagManager:
   - Wall
   - Top Wall
   - Bottom Wall
+  - Pause canvas
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Paddles
   - Water
   - UI
   - ' Background'
-  - 
+  - Gameplay
   - 
   - 
   - 
@@ -46,6 +47,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Paddles
+    uniqueID: 3472329787
     locked: 0
   - name: Background
     uniqueID: 3135937389

@@ -46,21 +46,13 @@ public class GameManager : MonoBehaviour
         else
             winnerText.text = RIGHT_PLAYER_WINS;
     }
-    public void ResetGame(TMP_Text winnerText, GameObject backToMenuButton)
+    public void ResetGameFromWinnerScene()
     {
         leftScore = 0;
         rightScore = 0;
         isGameOver = false;
         Time.timeScale = 1f;
-
-        if (winnerText != null)
-            winnerText.gameObject.SetActive(false);
-
-        if (backToMenuButton != null)
-            backToMenuButton.SetActive(false);
     }
-
-
 
     public int MaxScore
     {

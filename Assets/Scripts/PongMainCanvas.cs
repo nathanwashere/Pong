@@ -2,23 +2,26 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class Score : MonoBehaviour
+public class PongMainCanvas : MonoBehaviour
 {
-    public TMP_Text scoreLeft;
-    public TMP_Text scoreRight;
-    public TMP_Text startGameSign;
-    public TMP_Text winnerText;
-    public GameObject backToMenuButton;
+    [SerializeField] private TMP_Text scoreLeft;
+    [SerializeField] private TMP_Text scoreRight;
+    [SerializeField] private TMP_Text startGameSign;
+    [SerializeField] private TMP_Text winnerText;
+    [SerializeField] private GameObject backToMenuButton;
+
+
 
 
     void Start()
     {
         winnerText.gameObject.SetActive(false);
         backToMenuButton.gameObject.SetActive(false);
+       
+
         scoreLeft.text = 0.ToString();
         scoreRight.text = 0.ToString();
     }
-
 
     public void AddScore(string side)
     {
@@ -48,9 +51,15 @@ public class Score : MonoBehaviour
     }   
     public void GoBackToMenu()
     {
+        if (winnerText != null)
+            winnerText.gameObject.SetActive(false);
+
+        if (backToMenuButton != null)
+            backToMenuButton.SetActive(false);
+
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetGame(winnerText, backToMenuButton);
+            GameManager.Instance.ResetGameFromWinnerScene();
         }
 
         GameObject ball = GameObject.FindWithTag("Ball");

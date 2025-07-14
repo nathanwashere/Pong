@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    private const string FIVE = "5";
-    private const string TEN = "10";
-    private const string FIFTEEN = "15";
+    private const string MAX_SCORE_FIVE = "5";
+    private const string MAX_SCORE_TEN = "10";
+    private const string MAX_SCORE_FIFTEEN = "15";
 
     public TMP_Dropdown scoreDropdown;
     
@@ -18,11 +18,11 @@ public class MainMenu : MonoBehaviour
         int index = scoreDropdown.value;
         string selectedOption = scoreDropdown.options[index].text;
 
-        if (selectedOption == FIVE)
+        if (selectedOption == MAX_SCORE_FIVE)
             GameManager.Instance.MaxScore = 5;
-        else if (selectedOption == TEN)
+        else if (selectedOption == MAX_SCORE_TEN)
             GameManager.Instance.MaxScore = 10;
-        else if (selectedOption == FIFTEEN)
+        else if (selectedOption == MAX_SCORE_FIFTEEN)
             GameManager.Instance.MaxScore = 15;
 
         SceneManager.LoadScene("Pong");
