@@ -13,48 +13,75 @@ public class PauseManager : MonoBehaviour
     {
         pauseGameCanvas.SetActive(false);   // Hide pause menu at start
         gameplayObjects.SetActive(true);    // Show gameplay UI and objects at start    
-        //  Time.timeScale = 1f;  
+        Time.timeScale = 1f;  // --> when you press from pause menu to restart the game
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) // --> Show pause menu when clicking Escape
             TogglePause();
     } 
 
-
+    // Function to show the pause menu or unpause when clicked on escape
     private void TogglePause()
     {
         if (!isPaused)
         {
-            // **1) snapshot BEFORE disabling the root**
+            // Before freezing and chaning canvas, we save the velocity of the ball in order 
+            // to keep the velocity the same after player clicks again escape or 
+            // clicks on resume
             ball.StoreVelocity();
 
-            pauseGameCanvas.SetActive(true);
+            // Changing canvases
+            pauseGameCanvas.SetActive(true); 
             gameplayObjects.SetActive(false);
+            
+            // Freezing the game
             Time.timeScale = 0f;
         }
         else
         {
+            // Chaning canvases
             pauseGameCanvas.SetActive(false);
             gameplayObjects.SetActive(true);
+
+            // Unfreezing the game
             Time.timeScale = 1f;
 
-            // **2) restore AFTER re‑enabling the root**
+            // Restoring the balls velocity like it was before
             ball.RestoreVelocity();
         }
         isPaused = !isPaused;
     }
 
+    // Restarting game when in pause game
     public void RestartGame()
     {
-        Time.timeScale = 1f;
+        // Unfreezing the game
+        Time.timeScale = 1f; 
+
+        // Loading again the game from beginning
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadMainMenu()
+    // Continuing the game if click on resume in pause menu
+    public void ContinueGame()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // change to your menu scene name
+        isPaused = true;
+
+        // TogglePause because we need to unfreeze the game and change canvases
+        TogglePause();
     }
+
+    // Load the main menu when clicked in pause menu
+    public void GoBackToMenu()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGameFromWinnerScene(); // --> Resetting score and more
+        }
+
+        SceneManager.LoadScene("MainMenu"); // --> Loading the main menu scene
+    }
+
 }

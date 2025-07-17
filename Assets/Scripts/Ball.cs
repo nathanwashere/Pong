@@ -5,17 +5,17 @@ public class Ball : MonoBehaviour
 {
     private bool isIn = false;
     public bool gameStarted { private set; get; } = false;
-
     public float rotationSpeed = 360f;
-    public PongMainCanvas mainCanvas;
-
-    private Rigidbody2D rb;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float detectGoalDistanceRight = 0.15f;
     [SerializeField] private float detectGoalDistanceLeft = 0.2f;
 
-    private Vector2 storedVelociy;
 
+    public PongMainCanvas mainCanvas;
+    private Rigidbody2D rb;
+
+    #region Game objects
+    private Vector2 storedVelociy;
 
     public GameObject wallRight;
     private Vector3 wallRightCord;
@@ -28,15 +28,15 @@ public class Ball : MonoBehaviour
 
     public GameObject paddleLeft;
     private Vector3 paddleLeftCord;
+    #endregion
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
     }
     void Start()
     {
-        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.bodyType = RigidbodyType2D.Kinematic;  // --> Until the player did not click F the ball stays afloat
 
         //wallRightCord = wallRight.transform.localPosition;
         //paddleRightCord = paddleRight.transform.localPosition;
@@ -51,69 +51,78 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (gameStarted)
+        if (gameStarted) 
         {
-            mainCanvas.HideEnterGameSign();
+            mainCanvas.HideEnterGameSign(); // --> Change later, put it inside main canvas
             rb.linearVelocity = rb.linearVelocity.normalized * speed;
-            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
+            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // --> Rotate it (for the sprite)
             //rb.angularVelocity = 1000f;
 
-            CheckGoal();
+            CheckGoal(); // --> Every frame we check if there was goal
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift)) // --> We can remove it later
                 ResetGame(false);
 
         }
 
-        else if (!gameStarted && Input.GetKeyDown(KeyCode.F))
+        else if (!gameStarted && Input.GetKeyDown(KeyCode.F)) // We click F to play
         {
-            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.bodyType = RigidbodyType2D.Dynamic; // --> Changing it back to dynamic for box collider for walls
             gameStarted = true;
-            LaunchBall();
+            LaunchBall(); // --> Launching the ball in a random direction
         }
 
     }
 
+    // Function to store velocity to use it later (if we click resume or escape in pause menu)
     public void StoreVelocity()
     {
         storedVelociy = rb.linearVelocity;
 
-        rb.simulated = false;
+        rb.simulated = false; // --> Need it for some reason dont remember
     }
+
+    // Restore the velocity after exiting pause menu via escape or resume
     public void RestoreVelocity()
     {
         rb.simulated = true;
         rb.linearVelocity = storedVelociy;
     }
+
+    // Launching ball in a random direction
     private void LaunchBall()
     {
         rb.linearVelocity = GetDirection();
     }
+
+    // Function that returns a vector to launch the ball
     private Vector2 GetDirection()
     {
-        float[] possibleAngles = { 45f, -45f, 135f, -135f };  // Four good directions
+        float[] possibleAngles = { 45f, -45f, 135f, -135f };  // --> Four good directions
         float chosenAngle = possibleAngles[Random.Range(0, possibleAngles.Length)];
-        float angleRad = chosenAngle * Mathf.Deg2Rad;
+        float angleRad = chosenAngle * Mathf.Deg2Rad; // --> Some math stuff
         return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized * speed;
     }
+
+    // Function that checks if there is a goal
     private void CheckGoal()
     {
         if (IsInRightSide())
         {
             if (!isIn)
             {
-                mainCanvas.AddScore("left");
+                mainCanvas.AddScore("left"); // --> Updating the UI of score (left)
                 isIn = true;
-                ResetGame(false);
+                ResetGame(false); // --> Resetting the position of the ball
             }
         }
         else if (IsInLeftSide())
         {
             if (!isIn)
             {
-                mainCanvas.AddScore("right");
+                mainCanvas.AddScore("right"); // --> Updating the UI of score (right)
                 isIn = true;
-                ResetGame(false);
+                ResetGame(false); // --> Resetting the position of the ball
             }
         }
         else if (IsInMiddle())
@@ -124,6 +133,8 @@ public class Ball : MonoBehaviour
             }
         }
     }
+
+    #region check if ball in X region
     private bool IsInMiddle()
     {
         if (transform.position.x > paddleLeftCord.x && transform.position.x < paddleRightCord.x)
@@ -142,9 +153,12 @@ public class Ball : MonoBehaviour
             return true;
         return false;
     }
+    #endregion
+
+    // Resetting the game, if reset counter is true we reset the score too
     private void ResetGame(bool resetCounter)
     {
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, 0, 0); // --> resetting the ball position
 
 
         if (resetCounter)
@@ -155,13 +169,14 @@ public class Ball : MonoBehaviour
         else
         {
             rb.linearVelocity = GetDirection();
-            CheckEndGame();
+            StopRotationOfBallWhenGameEnded(); // --> ResetGame works only if there is a goal, so that means it could end the game
         }
 
     }
-    public void CheckEndGame()
+
+    // Function that when the game has ended makes the ball straight and not in rotation
+    public void StopRotationOfBallWhenGameEnded()
     {
-        // When game ends, this function makes the ball straight and not in rotation
         if (GameManager.Instance.IsGameOver)
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }

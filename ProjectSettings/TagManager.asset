@@ -11,6 +11,7 @@ TagManager:
   - Top Wall
   - Bottom Wall
   - Pause canvas
+  - Gameplay
   layers:
   - Default
   - TransparentFX
