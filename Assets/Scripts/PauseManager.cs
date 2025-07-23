@@ -3,9 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    // This class is responsible for pausing the game while playing
+
+    #region game objects
     [SerializeField] private GameObject pauseGameCanvas;
     [SerializeField] private GameObject gameplayObjects;
     [SerializeField] private Ball ball;
+    #endregion
 
     private bool isPaused = false;
 
@@ -18,8 +22,8 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) // --> Show pause menu when clicking Escape
-            TogglePause();
+        if (!GameManager.Instance.IsGameOver && Input.GetKeyDown(KeyCode.Escape)) // --> Show pause menu when clicking Escape
+            TogglePause();                                                        // Only when game is active
     } 
 
     // Function to show the pause menu or unpause when clicked on escape
@@ -38,6 +42,7 @@ public class PauseManager : MonoBehaviour
             
             // Freezing the game
             Time.timeScale = 0f;
+
         }
         else
         {
@@ -78,7 +83,7 @@ public class PauseManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetGameFromWinnerScene(); // --> Resetting score and more
+            GameManager.Instance.ResetGameSettkingFromWinnerScene(); // --> Resetting score and more
         }
 
         SceneManager.LoadScene("MainMenu"); // --> Loading the main menu scene

@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // This class represent one game "manager" - singleton - that is not being destroyed when switching scenes
+    // so that we can keep data throughout all the scenes (like score)
+
     public static GameManager Instance;
 
+    #region const
     private const string LEFT_PLAYER_WINS = "Left Player Wins!";
     private const string RIGHT_PLAYER_WINS = "Right Player Wins!";
+    #endregion
 
     private int maxScore;
     private int leftScore = 0;
@@ -29,12 +34,13 @@ public class GameManager : MonoBehaviour
     }
     
     // Function that checks if the game has ended
-    public void EndGame(TMP_Text winnerText, GameObject backToMenuButton)
+    public void EndGame(TMP_Text winnerText, GameObject backToMenuButton, GameObject startAgainGame)
     {
         if (!isGameOver && (leftScore == maxScore || rightScore == maxScore))
         {
             isGameOver = true;
-            backToMenuButton.gameObject.SetActive(true); // --> Showing the back to menu button
+            backToMenuButton.gameObject.SetActive(true); // --> Showing the "Back to menu" button
+            startAgainGame.gameObject.SetActive(true); // --> Showing the "Start again" button
             Time.timeScale = 0f;  // --> Freeze the game
             ShowWinner(winnerText); // --> Shows the winner (text on screen) of the game
         }
@@ -51,7 +57,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Resetting the game score and data for next game
-    public void ResetGameFromWinnerScene()
+    public void ResetGameSettkingFromWinnerScene()
     {
         leftScore = 0;
         rightScore = 0;

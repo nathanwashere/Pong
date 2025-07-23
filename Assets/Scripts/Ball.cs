@@ -3,18 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
+    // This class is responsible for the Ball behaviour
+
     private bool isIn = false;
-    public bool gameStarted { private set; get; } = false;
-    public float rotationSpeed = 360f;
+    [SerializeField] private float rotationSpeed = 360f;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float detectGoalDistanceRight = 0.15f;
     [SerializeField] private float detectGoalDistanceLeft = 0.2f;
 
-
-    public PongMainCanvas mainCanvas;
+    #region Game objects
+    [SerializeField] private PongSceneManager pongSceneManager;
+    [SerializeField] private PongMainCanvas mainCanvas;
     private Rigidbody2D rb;
 
-    #region Game objects
     private Vector2 storedVelociy;
 
     public GameObject wallRight;
@@ -34,14 +35,10 @@ public class Ball : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Kinematic;  // --> Until the player did not click F the ball stays afloat
-
-        //wallRightCord = wallRight.transform.localPosition;
-        //paddleRightCord = paddleRight.transform.localPosition;
-        //wallLeftCord = wallLeft.transform.localPosition;
-        //paddleLeftCord = paddleLeft.transform.localPosition;
 
         wallRightCord = wallRight.transform.position;
         paddleRightCord = paddleRight.transform.position;
@@ -51,9 +48,9 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (gameStarted) 
+        if (pongSceneManager.gameStarted)
         {
-            mainCanvas.HideEnterGameSign(); // --> Change later, put it inside main canvas
+            //mainCanvas.HideEnterGameSign(); // --> Change later, put it inside main canvas
             rb.linearVelocity = rb.linearVelocity.normalized * speed;
             transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // --> Rotate it (for the sprite)
             //rb.angularVelocity = 1000f;
@@ -62,16 +59,14 @@ public class Ball : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift)) // --> We can remove it later
                 ResetGame(false);
-
         }
+    }
 
-        else if (!gameStarted && Input.GetKeyDown(KeyCode.F)) // We click F to play
-        {
-            rb.bodyType = RigidbodyType2D.Dynamic; // --> Changing it back to dynamic for box collider for walls
-            gameStarted = true;
-            LaunchBall(); // --> Launching the ball in a random direction
-        }
-
+    // Function to launch ball at start
+    public void LaunchBallStart()
+    {
+        rb.bodyType = RigidbodyType2D.Dynamic; // --> Changing it back to dynamic for box collider for walls
+        LaunchBall(); // --> Launching the ball in a random direction
     }
 
     // Function to store velocity to use it later (if we click resume or escape in pause menu)

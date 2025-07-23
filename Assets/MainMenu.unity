@@ -1325,7 +1325,7 @@ GameObject:
   - component: {fileID: 1457381740}
   - component: {fileID: 1457381739}
   m_Layer: 5
-  m_Name: PONG
+  m_Name: Welcome to pong! sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

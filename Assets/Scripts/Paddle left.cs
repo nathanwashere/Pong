@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Paddleleft : PaddleMove
 {
+    // This class is responisble for moving the right paddle, this paddle moves with W and S
     protected override Vector2 Move()
     {   
         float moveY = 0;
@@ -12,14 +13,5 @@ public class Paddleleft : PaddleMove
             moveY = -speed;
 
         return new Vector2(0, moveY);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Ground")
-        {
-            Debug.Log("I have touched the ground!");
-            rb.linearVelocity = new Vector2(0, 0);
-        }
     }
 }

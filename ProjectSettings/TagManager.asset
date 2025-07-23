@@ -12,6 +12,7 @@ TagManager:
   - Bottom Wall
   - Pause canvas
   - Gameplay
+  - PongSceneManager
   layers:
   - Default
   - TransparentFX

@@ -4,22 +4,35 @@ using UnityEngine.SceneManagement;
 
 public class PongMainCanvas : MonoBehaviour
 {
+    // This class is responsible for the pong canvas when playing pong (pong scene)
+
     #region game objects
     [SerializeField] private TMP_Text scoreLeft;
     [SerializeField] private TMP_Text scoreRight;
     [SerializeField] private TMP_Text startGameSign;
     [SerializeField] private TMP_Text winnerText;
     [SerializeField] private GameObject backToMenuButton;
+    [SerializeField] private GameObject startAgainGame;
+    [SerializeField] private PongSceneManager pongSceneManager;
     #endregion
 
     void Start()
     {
         winnerText.gameObject.SetActive(false); // --> Disables the "Winner!" text
         backToMenuButton.gameObject.SetActive(false); // --> Disables the "Back to main menu" button
+        startAgainGame.gameObject.SetActive(false); // --> Disables the "Start again" button
 
         // Setting the text of score to be 0 at the start of the game
         scoreLeft.text = 0.ToString();  
         scoreRight.text = 0.ToString();
+    }
+
+    void Update()
+    {
+        if (pongSceneManager.gameStarted) // --> Hide the "Press F to start game" text
+        {
+            startGameSign.gameObject.SetActive(false);
+        }
     }
 
     // Adding score via string (left or right) through the GameMangaer singleton
@@ -35,7 +48,30 @@ public class PongMainCanvas : MonoBehaviour
             GameManager.Instance.CounterRight++;
             scoreRight.text = GameManager.Instance.CounterRight.ToString();
         }
-        GameManager.Instance.EndGame(winnerText, backToMenuButton);
+        GameManager.Instance.EndGame(winnerText, backToMenuButton, startAgainGame);
+    }
+
+    // Go back to menu when you are in winner state (someone won and the game ended)
+    public void GoBackToMenu()
+    {
+        // Here we are "hiding" all the game objects from pong scene in order to make
+        // smooth transition between scenes
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGameSettkingFromWinnerScene(); // Resetting all the score and etc
+        }
+        
+        // Loading scene "MainMenu" to start the whole game again
+        SceneManager.LoadScene("MainMenu"); // Going back to main menu scene
+    }
+
+    // Function that starts the  game again from the winner menu, with all the same settings
+    public void StartGameAgainFromWinnerMenu()
+    {
+        GameManager.Instance.ResetGameSettkingFromWinnerScene(); // --> Resetting data
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // --> Resetting the actual game
     }
 
     #region get and set for counter
@@ -48,38 +84,4 @@ public class PongMainCanvas : MonoBehaviour
         GameManager.Instance.CounterRight = x;
     }
     #endregion
-
-    // Hide the "Press F to start game" text
-    public void HideEnterGameSign()
-    {
-        startGameSign.gameObject.SetActive(false);
-    }   
-
-    // Go back to menu when you are in winner state (someone won and the game ended)
-    public void GoBackToMenu()
-    {
-        // Here we are "hiding" all the game objects from pong scene in order to make
-        // smooth transition between scenes
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.ResetGameFromWinnerScene(); // Resetting all the score and etc
-        }
-
-        //GameObject ball = GameObject.FindWithTag("Ball");
-        //if (ball != null)
-        //    ball.SetActive(false);
-
-        //GameObject[] paddles = GameObject.FindGameObjectsWithTag("Paddle");
-        //foreach (var paddle in paddles)
-        //{
-        //    paddle.SetActive(false);
-        //}
-
-        //GameObject canvas = GameObject.FindGameObjectWithTag("Gameplay");
-        //if (canvas != null)
-        //    canvas.SetActive(false);
-
-        SceneManager.LoadScene("MainMenu"); // Going back to main menu scene
-    }
 }
