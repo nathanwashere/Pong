@@ -13,6 +13,8 @@ TagManager:
   - Pause canvas
   - Gameplay
   - PongSceneManager
+  - Singleplayer button
+  - 2 Player button
   layers:
   - Default
   - TransparentFX

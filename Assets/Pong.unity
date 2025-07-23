@@ -1087,6 +1087,7 @@ GameObject:
   - component: {fileID: 480830320}
   - component: {fileID: 480830319}
   - component: {fileID: 480830321}
+  - component: {fileID: 480830322}
   m_Layer: 7
   m_Name: Right paddle
   m_TagString: Untagged
@@ -1244,12 +1245,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480830316}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ddb6357cb7a35148b1a27fba6d852ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+--- !u!114 &480830322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480830316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f869246316321e47a534f649b54d6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball: {fileID: 949652779}
+  paddleSpeed: 12
+  deadZone: 0.2
+  reactionTime: 0.2
+  errorMargin: 0.5
 --- !u!1 &574172771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,7 +1845,7 @@ MonoBehaviour:
   rotationSpeed: 360
   speed: 20
   detectGoalDistanceRight: 0.15
-  detectGoalDistanceLeft: 0.2
+  detectGoalDistanceLeft: 0.4
   pongSceneManager: {fileID: 2104013468}
   mainCanvas: {fileID: 1038307333}
   wallRight: {fileID: 733860333}
@@ -3902,6 +3920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 949652779}
+  paddleRight: {fileID: 480830316}
 --- !u!4 &2104013469
 Transform:
   m_ObjectHideFlags: 0

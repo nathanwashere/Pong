@@ -5,8 +5,23 @@ public class PongSceneManager : MonoBehaviour
     // This class is responsible to start the game when clicking F
 
     [SerializeField] private Ball ball;
+    [SerializeField] private GameObject paddleRight;
 
     public bool gameStarted { private set; get; } = false;
+
+    void Start()
+    {
+      if (GameManager.Instance.IsSingleplayer)
+      {
+            paddleRight.GetComponent<BotPaddle>().enabled = true;
+            paddleRight.GetComponent<Paddleright>().enabled = false;
+      }
+      else
+      {
+            paddleRight.GetComponent<BotPaddle>().enabled = false;
+            paddleRight.GetComponent<Paddleright>().enabled = true;
+        }
+    }
 
     void Update()
     {

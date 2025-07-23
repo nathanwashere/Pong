@@ -59,7 +59,7 @@ public class PongMainCanvas : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetGameSettkingFromWinnerScene(); // Resetting all the score and etc
+            GameManager.Instance.ResetGameSettingFromWinnerScene(); // Resetting all the score and etc
         }
         
         // Loading scene "MainMenu" to start the whole game again
@@ -69,7 +69,7 @@ public class PongMainCanvas : MonoBehaviour
     // Function that starts the  game again from the winner menu, with all the same settings
     public void StartGameAgainFromWinnerMenu()
     {
-        GameManager.Instance.ResetGameSettkingFromWinnerScene(); // --> Resetting data
+        GameManager.Instance.ResetGameSettingFromWinnerScene(); // --> Resetting data
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // --> Resetting the actual game
     }

@@ -83,7 +83,7 @@ public class PauseManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetGameSettkingFromWinnerScene(); // --> Resetting score and more
+            GameManager.Instance.ResetGameSettingFromWinnerScene(); // --> Resetting score and more
         }
 
         SceneManager.LoadScene("MainMenu"); // --> Loading the main menu scene
