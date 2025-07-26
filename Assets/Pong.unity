@@ -1260,14 +1260,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 480830316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f869246316321e47a534f649b54d6bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b36007a4c9b9544938b0599fab3d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 949652779}
-  paddleSpeed: 12
-  deadZone: 0.2
-  reactionTime: 0.2
-  errorMargin: 0.5
+  paddleSpeed: 0
+  deadZone: 0
+  reactionTime: 0
+  errorMargin: 0
 --- !u!1 &574172771
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,32 +9,19 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    #region const
+    #region const variables
     private const string LEFT_PLAYER_WINS = "Left Player Wins!";
     private const string RIGHT_PLAYER_WINS = "Right Player Wins!";
-    private const float paddleSpeedEasy = 5f;
-    private const float paddleSpeedMedium = 5f;
-    private const float paddleSpeedHard = 12f;
-    private const float reactionTimeEasy = 0.3f;
-    private const float reactionTimeMedium = 0.2f;
-    private const float reactionTimeHard = 0.05f;
-    private const float errorMarginEasy = 1.0f;
-    private const float errorMarginMedium = 0.5f;
-    private const float errorMarginHard = 0.1f;
-    private const float deadZoneEasy = 0.5f;
-    private const float deadZoneMedium = 0.2f;
-    private const float deadZoneHard = 0.1f;
     #endregion
 
+    #region variables
     private int maxScore;
     private int leftScore = 0;
     private int rightScore = 0;
     private bool isGameOver = false;
-    private bool isSingleplayer;  // Maybe dont need it
-    private float[] easyLevel = { paddleSpeedEasy, reactionTimeEasy, errorMarginEasy, deadZoneEasy };
-    private float[] mediumLevel = { paddleSpeedMedium, reactionTimeMedium, errorMarginMedium, deadZoneMedium };
-    private float[] hardLevel = { paddleSpeedHard, reactionTimeHard, errorMarginHard, deadZoneHard };
+    private bool isSingleplayer;
     private int chooseLevel;
+    #endregion
 
     // In Awake we create the singleton of GameManager (because this object will not be destroyed 
     // when this scene end
@@ -80,24 +67,12 @@ public class GameManager : MonoBehaviour
         this.chooseLevel = chooseLevel;
     }
 
-    // Function that returns the array of difficulty
-    public float[] GetLevel()
+    // Function that returns the difficulty
+    public float GetLevel()
     {
-        if (chooseLevel == 1)
-        {
-            return easyLevel;
-        }
-        else if (chooseLevel == 2)
-        {
-            return mediumLevel;
-        }
-        else if (chooseLevel == 3)
-        {
-            return hardLevel;
-        }
-        Debug.Log("LEVEL IS NULL! INSIDE GET LEVEL IN GAME MANAGER SCRIPT");
-        return null;
+        return chooseLevel;
     }
+
     // Resetting the game score and data for next game
     public void ResetGameSettingFromWinnerScene()
     {

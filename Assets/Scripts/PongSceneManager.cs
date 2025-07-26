@@ -13,12 +13,12 @@ public class PongSceneManager : MonoBehaviour
     {
       if (GameManager.Instance.IsSingleplayer)
       {
-            paddleRight.GetComponent<BotPaddle>().enabled = true;
+            paddleRight.GetComponent<RightBotPaddle>().enabled = true;
             paddleRight.GetComponent<Paddleright>().enabled = false;
       }
       else
       {
-            paddleRight.GetComponent<BotPaddle>().enabled = false;
+            paddleRight.GetComponent<RightBotPaddle>().enabled = false;
             paddleRight.GetComponent<Paddleright>().enabled = true;
         }
     }

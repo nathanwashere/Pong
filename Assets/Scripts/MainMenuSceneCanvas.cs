@@ -21,16 +21,16 @@ public class MainMenuSceneCanvas : MonoBehaviour
     private const int HARD = 3;
     #endregion
 
+    #region game objects
     [SerializeField] private TMP_Dropdown scoreDropdown;
     [SerializeField] private TMP_Dropdown difficultyDropdown;
     [SerializeField] private GameObject startGameButton;
-    [SerializeField] private GameObject chooseScore;
+    [SerializeField] private GameObject chooseScoreLabelText;
+    [SerializeField] private GameObject chooseDifficultyLabelText;
     [SerializeField] private GameObject singlePlayerButton;
     [SerializeField] private GameObject twoPlayerButton;
+    #endregion
 
-    private bool isSinglePlayer;
-
-    
     // Player choose the options from main menu
     public void PlayGame()
     {
@@ -76,22 +76,24 @@ public class MainMenuSceneCanvas : MonoBehaviour
     public void StartGameSinglePlayer()
     {
         GameManager.Instance.IsSingleplayer = true;
-        startGameButton.gameObject.SetActive(true);
-        scoreDropdown.gameObject.SetActive(true);
-        chooseScore.gameObject.SetActive(true);
-        singlePlayerButton.gameObject.SetActive(false);
-        twoPlayerButton.gameObject.SetActive(false);
+        startGameButton.gameObject.SetActive(true); // --> Showing the start game button
+        scoreDropdown.gameObject.SetActive(true);   // --> Showing the score dropdown 
+        difficultyDropdown.gameObject.SetActive(true); // --> Showing the difficulty dropdown
+        chooseScoreLabelText.gameObject.SetActive(true);    // --> Showing the "choose score" text
+        chooseDifficultyLabelText.gameObject.SetActive(true); // --> Showing the "choose difficulty" text
+        singlePlayerButton.gameObject.SetActive(false);     // --> Removing the singleplayer button
+        twoPlayerButton.gameObject.SetActive(false);        // --> Removing the two player button
     }
 
     // Function that starts the 2 player game (button)
     public void StartGameTwoPlayer()
     {
         GameManager.Instance.IsSingleplayer = false;
-        startGameButton.gameObject.SetActive(true);
-        scoreDropdown.gameObject.SetActive(true);
-        chooseScore.gameObject.SetActive(true);
-        singlePlayerButton.gameObject.SetActive(false);
-        twoPlayerButton.gameObject.SetActive(false);
+        startGameButton.gameObject.SetActive(true); // --> Showing the start game button
+        scoreDropdown.gameObject.SetActive(true);   // --> Showing the score dropdown 
+        chooseScoreLabelText.gameObject.SetActive(true);  // --> Showing the "choose score" text
+        singlePlayerButton.gameObject.SetActive(false);   // --> Removing the singleplayer button
+        twoPlayerButton.gameObject.SetActive(false); // --> Removing the two player button
     }
 }
     
