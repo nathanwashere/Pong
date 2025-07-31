@@ -38,9 +38,12 @@ A classic Pong game recreated in Unity with both single-player and local multipl
 
 To play the game:
 
-1. Clone or download the repository.
-2. Open the project in Unity 6.
-3. Build and run the game (or use the executable if available in Releases).
+1. Go to the [Releases page](https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest).
+2. Download the `Pong_Windows.zip` file under **Assets**.
+3. Extract the ZIP file to any folder.
+4. Open the folder and double-click `Pong.exe` to start playing.
+
+> ⚠️ Ignore the "Source code" files — those are only for developers.
 
 ---
 
