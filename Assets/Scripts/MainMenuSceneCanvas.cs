@@ -29,6 +29,7 @@ public class MainMenuSceneCanvas : MonoBehaviour
     [SerializeField] private GameObject chooseDifficultyLabelText;
     [SerializeField] private GameObject singlePlayerButton;
     [SerializeField] private GameObject twoPlayerButton;
+    [SerializeField] private GameObject endGameButton;
     #endregion
 
     // Player choose the options from main menu
@@ -83,6 +84,8 @@ public class MainMenuSceneCanvas : MonoBehaviour
         chooseDifficultyLabelText.gameObject.SetActive(true); // --> Showing the "choose difficulty" text
         singlePlayerButton.gameObject.SetActive(false);     // --> Removing the singleplayer button
         twoPlayerButton.gameObject.SetActive(false);        // --> Removing the two player button
+        endGameButton.gameObject.SetActive(false);        // --> Quitting the game
+
     }
 
     // Function that starts the 2 player game (button)
@@ -94,6 +97,18 @@ public class MainMenuSceneCanvas : MonoBehaviour
         chooseScoreLabelText.gameObject.SetActive(true);  // --> Showing the "choose score" text
         singlePlayerButton.gameObject.SetActive(false);   // --> Removing the singleplayer button
         twoPlayerButton.gameObject.SetActive(false); // --> Removing the two player button
+        endGameButton.gameObject.SetActive(false);        // --> Quitting the game
+    }
+
+    // Function that ends the game
+    public void QuitGame()
+    {
+        Application.Quit();
+
+        // This line is just for testing in the Editor
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
     
