@@ -48,6 +48,9 @@ To play the game:
 
 You can download the latest playable version of the game [here](https://github.com/nathanwashere/Pong/releases/latest).
 
+> ⚠️ Note: Download the `.zip` file with the game name (e.g., `Pong_Windows.zip`).  
+> Ignore the "Source code" downloads — those are for developers.
+
 ---
 
 ## 👤 Author
