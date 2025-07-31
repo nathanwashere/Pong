@@ -46,7 +46,7 @@ To play the game:
 
 ## 📥 Download
 
-You can download the latest playable version of the game [here](https://github.com/**YOUR_USERNAME**/**YOUR_REPO**/releases/latest).
+You can download the latest playable version of the game [here](https://github.com/nathanwashere/Pong/releases/latest).
 
 > Replace `YOUR_USERNAME` and `YOUR_REPO` with your GitHub username and repo name.
 
