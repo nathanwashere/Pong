@@ -1,10 +1,10 @@
-# 🕹️ Pong
+# Pong
 
 A classic Pong game recreated in Unity with both single-player and local multiplayer modes.
 
 ---
 
-## 🎮 Gameplay Features
+## Gameplay Features
 
 - **Game Modes:**
   - **Single Player** – Choose between Easy, Medium, or Hard AI-controlled opponent.
@@ -17,7 +17,7 @@ A classic Pong game recreated in Unity with both single-player and local multipl
 
 ---
 
-## 🖼️ Visuals
+## Visuals
 
 - Clean background image (original photo)
 - Custom sprite for paddles and a custom image for the ball
@@ -25,7 +25,7 @@ A classic Pong game recreated in Unity with both single-player and local multipl
 
 ---
 
-## 🔧 Tech Info
+## Tech Info
 
 - **Engine**: Unity 6
 - **Language**: C# (fully scripted by me)
@@ -34,7 +34,7 @@ A classic Pong game recreated in Unity with both single-player and local multipl
 
 ---
 
-## 📦 Installation
+## Installation
 
 To play the game:
 
@@ -43,19 +43,19 @@ To play the game:
 3. Extract the ZIP file to any folder.
 4. Open the folder and double-click `Pong.exe` to start playing.
 
-> ⚠️ Ignore the "Source code" files — those are only for developers.
+> Ignore the "Source code" files — those are only for developers.
 
 ---
 
-## 📥 Download
+## Download
 
 You can download the latest playable version of the game [here](https://github.com/nathanwashere/Pong/releases/latest).
 
-> ⚠️ Note: Download the `.zip` file with the game name (e.g., `Pong_Windows.zip`).  
+> Note: Download the `.zip` file with the game name (e.g., `Pong_Windows.zip`).  
 > Ignore the "Source code" downloads — those are for developers.
 
 ---
 
-## 👤 Author
+## Author
 
 This game was developed solo as a personal project to practice Unity and C#.
